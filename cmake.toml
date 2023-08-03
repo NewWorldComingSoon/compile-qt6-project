@@ -1,0 +1,47 @@
+[cmake]
+version = "3.15"
+cmkr-include = "cmake/cmkr.cmake"
+
+[project]
+name = "UnknownKit"
+include-after = ["cmake/Qt5Helpers.cmake"]
+msvc-runtime = "static"
+
+[find-package]
+Qt6 = { components = ["Widgets", "Core5Compat"] }
+
+# tool: UnknownKitGUI
+[target.UnknownKitGUI]
+type = "executable"
+sources = [
+    "src/gui/**.cpp",
+    "src/gui/**.h",
+    "src/gui/**.ui",
+    "src/gui/**.qrc",
+]
+include-directories = ["include", "src/lib"]
+link-libraries = [
+    "Qt6::Widgets", 
+    "Qt6::Core5Compat", 
+    "UtilsLib"
+]
+msvc.link-options = ["/SUBSYSTEM:WINDOWS"]
+cmake-after = """
+# Enable Qt moc/rrc/uic support
+target_qt(${CMKR_TARGET})
+"""
+
+# lib: UtilsLib
+[target.UtilsLib]
+type = "static"
+sources = [
+    "src/lib/UtilsLib/**.cpp", 
+    "src/lib/UtilsLib/**.hpp", 
+    "src/lib/UtilsLib/**.h"
+]
+include-directories = ["include"]
+
+
+[[install]]
+targets = ["UnknownKitGUI"]
+destination = "bin"
