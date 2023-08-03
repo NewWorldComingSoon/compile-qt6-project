@@ -28,7 +28,7 @@ jobs:
 
     - name: Build
       run: |
-        cmake -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install" -DCMAKE_PREFIX_PATH=qt6_630_static_64 -B build
+        cmake -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install -DCMAKE_PREFIX_PATH=qt6_630_static_64 -B build
         cmake --build build --config ${{ env.BUILD_TYPE }}
         cmake --install build
 
